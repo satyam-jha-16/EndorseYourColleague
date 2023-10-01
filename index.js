@@ -29,26 +29,27 @@ publishBtn.addEventListener("click", function(){
 })
 
 onValue(endorsementInDB, function(snapshot){
-    if(snapshot){
+    if(snapshot.exists()){
         let temp =  Object.entries(snapshot.val())
         messageEl.innerHTML =""
         
         for (let i = 0; i < temp.length; i++) {
             let currentItem = temp[i]
-            let currentItemID = currentItem[0]
-            let currentItemValue = currentItem[1]
-            // console.log(currentItemValue)
-            let from = currentItemValue.from
-            let msg = currentItemValue.endorseValue
-            let to = currentItemValue.to
-            displayOnScreen(from, to, msg)
+            displayOnScreen(currentItem)
         }
     } else{
-        messageEl.innerHTML = "Nothing to see here !!"
+        console.log("why isn't it working")
+        messageEl.innerText = "Nothing to see here !!"
     }
 })
 
-function displayOnScreen(from, to, msg){
+function displayOnScreen(currentItem){
+    let currentItemID = currentItem[0]
+    let currentItemValue = currentItem[1]
+    // console.log(currentItemValue)
+    let from = currentItemValue.from
+    let msg = currentItemValue.endorseValue
+    let to = currentItemValue.to
     
     let displayItem = 
     `<div class= 'message'>
@@ -57,6 +58,11 @@ function displayOnScreen(from, to, msg){
        <p class="tags">From ${from}</p>    
     </div>`
     messageEl.innerHTML += displayItem
+    
+    messageEl.addEventListener("dblclick", function(){
+        let exactLocationOfItemInDB = ref(database, `Endorsements/${currentItemID}`)
+        remove(exactLocationOfItemInDB)
+    } )
     
 }
 
