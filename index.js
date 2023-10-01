@@ -58,8 +58,8 @@ function displayOnScreen(currentItem){
        <p class="tags">From ${from}</p>    
     </div>`
     messageEl.innerHTML += displayItem
-    
-    messageEl.addEventListener("dblclick", function(){
+    let msgEl = document.querySelector(".message")
+    msgEl.addEventListener("dblclick", function(){
         let exactLocationOfItemInDB = ref(database, `Endorsements/${currentItemID}`)
         remove(exactLocationOfItemInDB)
     } )
@@ -69,5 +69,5 @@ function displayOnScreen(currentItem){
 function clearInputField(){
     endorseEl.value = ""
     fromEl.value = ""
-    toEl = ""
+    toEl.value = ""
 }
